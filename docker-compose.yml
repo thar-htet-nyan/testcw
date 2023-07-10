@@ -3,6 +3,8 @@ services:
   # Application Dockerfile is in same folder which is .
   app:
     build: .
+#    command: ["docker", "run", "-i", "-t", "testcw-app-1"]
+    tty: true
 
   # db Dockerfile is in db folder
   db:
