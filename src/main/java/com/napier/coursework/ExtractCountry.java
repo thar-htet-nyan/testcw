@@ -7,38 +7,37 @@ import java.util.ArrayList;
 
 public class ExtractCountry {
 
-    private Connection con;
+    private Connection conn = null;
 
-    public void setCon(Connection con) {
-        this.con = con;
+    public void setConn(Connection conn) {
+        this.conn = conn;
+    }
+
+    public void CountryReport() {
+        display();
     }
 
     public ArrayList<Country> getAllSalaries()
     {
         try
         {
+            String query = "Select * from country";
             // Create an SQL statement
-            Statement stmt = con.createStatement();
-            // Create string for SQL statement
-//            String strSelect =
-//                    "SELECT employees.emp_no, employees.first_name, employees.last_name, salaries.salary "
-//                            + "FROM employees, salaries "
-//                            + "WHERE employees.emp_no = salaries.emp_no AND salaries.to_date = '9999-01-01' "
-//                            + "ORDER BY employees.emp_no ASC";
-            String strSelect = "SELECT * FROM country";
+            Statement stmt = conn.createStatement();
             // Execute SQL statement
-            ResultSet rset = stmt.executeQuery(strSelect);
+            ResultSet result_data = stmt.executeQuery(query);
+//            ResultSet rset = dbconn.extract_data(query);
             // Extract employee information
             ArrayList<Country> countries = new ArrayList<Country>();
-            while (rset.next())
+            while (result_data.next())
             {
                 Country cnt = new Country();
 //                emp.emp_no = rset.getInt("employees.emp_no");
 //                emp.first_name = rset.getString("employees.first_name");
 //                emp.last_name = rset.getString("employees.last_name");
 //                emp.salary = rset.getInt("salaries.salary");
-                cnt.Capital = rset.getString("country.Capital");
-                cnt.Code = rset.getString("country.Code");
+                cnt.Capital = result_data.getString("country.Capital");
+                cnt.Code = result_data.getString("country.Code");
                 countries.add(cnt);
             }
             return countries;
@@ -48,6 +47,14 @@ public class ExtractCountry {
             System.out.println(e.getMessage());
             System.out.println("Failed to get country details");
             return null;
+        }
+    }
+
+    public void display(){
+        ArrayList<Country> lol = getAllSalaries();
+        for (int i = 0; i < lol.size();i++)
+        {
+            System.out.println("Code: " + lol.get(i).Code + "Capital: " + lol.get(i).Capital);
         }
     }
 }
