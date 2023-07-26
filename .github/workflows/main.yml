@@ -20,7 +20,8 @@ jobs:
       - name: Run docker compose
         run: docker-compose up --abort-on-container-exit
         if: ${{ github.ref == 'master' }}
-      - uses: "marvinpinto/action-automatic-releases@latest"
+      - name: test
+        uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
